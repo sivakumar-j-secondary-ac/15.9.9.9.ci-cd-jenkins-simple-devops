@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+
+  tasks: 
+  - name: Build a docker image
+    command: docker build -t sivakumarj/i-simple-devops:latest .
+    args:
+      chdir: /opt/docker
+
+  - name: push to dockerhub. Make sure sudo docker login is done for standalone run
+    command: docker push sivakumarj/i-simple-devops
+
+  - name: remove the pushed image inorder to avoid failing during pull
+    command:  docker rmi sivakumarj/i-simple-devops:latest
+    ignore_errors: yes 

@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: stop container
+    command: docker stop c-simple-devops
+    ignore_errors: yes
+
+  - name: remove container
+    command: docker rm c-simple-devops
+    ignore_errors: yes
+
+  - name: remove image
+    command: docker rmi sivakumarj/i-simple-devops:latest 
+    ignore_errors: yes
+ 
+  - name: create container
+    command: docker run -d --name c-simple-devops -p 8080:8080 sivakumarj/i-simple-devops:latest
